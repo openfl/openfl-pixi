@@ -71,11 +71,11 @@ class BunnyMark {
 		stats.domElement.style.position = "absolute";
 		stats.domElement.style.top = "0px";
 		Browser.document.body.appendChild (stats.domElement);
-		counter.innerHTML = "10 BUNNIES";
+		counter.innerHTML = numBunnies + " BUNNIES";
 		counter.className = "counter";
 		Browser.document.body.appendChild (counter);
 		
-		for (i in 0...10) {
+		for (i in 0...numBunnies) {
 			
 			var bunny = new Bunny ();
 			bunny.speedX = Math.random () * 10;
@@ -104,7 +104,7 @@ class BunnyMark {
 	
 	private function initialize () {
 		
-		numBunnies = 0;
+		numBunnies = 10;
 		bunnies = new Array<Bunny> ();
 		container = new DisplayObjectContainer ();
 		renderer = Detector.autoDetectRenderer (800, 600);
