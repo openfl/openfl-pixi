@@ -1,12 +1,15 @@
 package pixi.core;
 
+
 /**
  * @author Adrien Brault <adrien.brault@gmail.com>
  * @author Joshua Granick
  */
-class Polygon
-{
+class Polygon {
+    
+    
 	public var points:Array<Point>;
+    
     
 	/**
 	 * @class Polygon
@@ -17,8 +20,8 @@ class Polygon
 	 *	  arguments passed can be flat x,y values e.g. `new PIXI.Polygon(x,y, x,y, x,y, ...)` where `x` and `y` are
 	 *	  Numbers.
 	 */
-	public function new (points:Dynamic)
-	{
+	public function new (points:Dynamic) {
+        
 		//if points isn't an array, use arguments as the array
 		if(untyped __js__("!(points instanceof Array)"))
 			points = untyped __js__("Array.prototype.slice.call(arguments)");
@@ -40,7 +43,9 @@ class Polygon
 		}
         
 		this.points = points;
+        
 	}
+    
     
 	/**
 	 * Creates a clone of this polygon
@@ -48,15 +53,17 @@ class Polygon
 	 * @method clone
 	 * @return {Polygon} a copy of the polygon
 	 */
-	public function clone ():Polygon
-	{
+	public function clone ():Polygon {
+        
 		var points = [];
 		for (i in 0...this.points.length) {
 			points.push(this.points[i].clone());
 		}
         
 		return new Polygon(points);
+        
 	}
+    
     
 	/**
 	 * Checks if the x, and y coords passed to this function are contained within this polygon
@@ -66,8 +73,8 @@ class Polygon
 	 * @param y {Number} The Y coord of the point to test
 	 * @return {Boolean} if the x/y coords are within this polygon
 	 */
-	public function contains (x:Float, y:Float):Bool
-	{
+	public function contains (x:Float, y:Float):Bool {
+        
 		var inside = false;
         
 		// use some raycasting to test hits
@@ -84,5 +91,8 @@ class Polygon
 		}
         
 		return inside;
+        
 	}
+    
+    
 }

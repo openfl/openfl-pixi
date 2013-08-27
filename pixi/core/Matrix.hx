@@ -1,14 +1,16 @@
 package pixi.core;
 
+
 /*
  * A lighter version of the rad gl-matrix created by Brandon Jones, Colin MacKenzie IV
  * you both rock!
  */
 
-class Mat3
-{
-	public static function create ():Matrix
-	{
+class Mat3 {
+	
+	
+	public static function create ():Matrix {
+		
 		var matrix = new Matrix(9);
 		
 		matrix[0] = 1;
@@ -22,10 +24,12 @@ class Mat3
 		matrix[8] = 1;
 		
 		return matrix;
+		
 	}
 	
-	public static function identity (matrix:Matrix):Matrix
-	{
+	
+	public static function identity (matrix:Matrix):Matrix {
+		
 		matrix[0] = 1;
 		matrix[1] = 0;
 		matrix[2] = 0;
@@ -37,10 +41,12 @@ class Mat3
 		matrix[8] = 1;
 		
 		return matrix;
+		
 	}
 	
-	public static function multiply (mat:Matrix, mat2:Matrix, dest:Matrix):Matrix 
-	{
+	
+	public static function multiply (mat:Matrix, mat2:Matrix, dest:Matrix):Matrix {
+		
 		if (dest == null) { dest = mat; }
 		
 		// Cache the matrix values (makes for huge speed increases!)
@@ -65,12 +71,41 @@ class Mat3
 		dest[8] = b20 * a02 + b21 * a12 + b22 * a22;
 		
 		return dest;
+		
 	}
 	
 	
+	public static function toMat4 (mat:Matrix, dest:Matrix):Matrix {
+		
+		if (dest == null) { dest = Mat4.create(); }
+		
+		dest[15] = 1;
+		dest[14] = 0;
+		dest[13] = 0;
+		dest[12] = 0;
+		
+		dest[11] = 0;
+		dest[10] = mat[8];
+		dest[9] = mat[7];
+		dest[8] = mat[6];
+		
+		dest[7] = 0;
+		dest[6] = mat[5];
+		dest[5] = mat[4];
+		dest[4] = mat[3];
+		
+		dest[3] = 0;
+		dest[2] = mat[2];
+		dest[1] = mat[1];
+		dest[0] = mat[0];
+		
+		return dest;
+		
+	}
 	
-	public static function transpose (mat:Matrix, dest:Matrix):Matrix 
-	{
+	
+	public static function transpose (mat:Matrix, dest:Matrix):Matrix {
+		
 		// If we are transposing ourselves we can skip a few steps but have to cache some values
 		if (dest == null || mat == dest) {
 			var a01 = mat[1], a02 = mat[2],
@@ -95,41 +130,17 @@ class Mat3
 		dest[7] = mat[5];
 		dest[8] = mat[8];
 		return dest;
+		
 	}
 	
-	public static function toMat4 (mat:Matrix, dest:Matrix):Matrix 
-	{
-		if (dest == null) { dest = Mat4.create(); }
-		
-		dest[15] = 1;
-		dest[14] = 0;
-		dest[13] = 0;
-		dest[12] = 0;
-		
-		dest[11] = 0;
-		dest[10] = mat[8];
-		dest[9] = mat[7];
-		dest[8] = mat[6];
-		
-		dest[7] = 0;
-		dest[6] = mat[5];
-		dest[5] = mat[4];
-		dest[4] = mat[3];
-		
-		dest[3] = 0;
-		dest[2] = mat[2];
-		dest[1] = mat[1];
-		dest[0] = mat[0];
-		
-		return dest;
-	}
 }
 
 
-class Mat4
-{
-	public static function create ():Matrix
-	{
+class Mat4 {
+	
+	
+	public static function create ():Matrix {
+		
 		var matrix = new Matrix(16);
 		
 		matrix[0] = 1;
@@ -150,53 +161,12 @@ class Mat4
 		matrix[15] = 1;
 		
 		return matrix;
-	}
-	
-	public static function transpose (mat:Matrix, dest:Matrix):Matrix 
-	{
-		// If we are transposing ourselves we can skip a few steps but have to cache some values
-		if (dest == null || mat == dest) 
-		{
-			var a01 = mat[1], a02 = mat[2], a03 = mat[3],
-				a12 = mat[6], a13 = mat[7],
-				a23 = mat[11];
-			
-			mat[1] = mat[4];
-			mat[2] = mat[8];
-			mat[3] = mat[12];
-			mat[4] = a01;
-			mat[6] = mat[9];
-			mat[7] = mat[13];
-			mat[8] = a02;
-			mat[9] = a12;
-			mat[11] = mat[14];
-			mat[12] = a03;
-			mat[13] = a13;
-			mat[14] = a23;
-			return mat;
-		}
 		
-		dest[0] = mat[0];
-		dest[1] = mat[4];
-		dest[2] = mat[8];
-		dest[3] = mat[12];
-		dest[4] = mat[1];
-		dest[5] = mat[5];
-		dest[6] = mat[9];
-		dest[7] = mat[13];
-		dest[8] = mat[2];
-		dest[9] = mat[6];
-		dest[10] = mat[10];
-		dest[11] = mat[14];
-		dest[12] = mat[3];
-		dest[13] = mat[7];
-		dest[14] = mat[11];
-		dest[15] = mat[15];
-		return dest;
 	}
 	
-	public static function multiply (mat:Matrix, mat2:Matrix, dest:Matrix) 
-	{
+	
+	public static function multiply (mat:Matrix, mat2:Matrix, dest:Matrix) {
+		
 		if (dest == null) { dest = mat; }
 		
 		// Cache the matrix values (makes for huge speed increases!)
@@ -240,7 +210,55 @@ class Mat4
 		dest[15] = b0*a03 + b1*a13 + b2*a23 + b3*a33;
 		
 		return dest;
+		
 	}
+	
+	
+	public static function transpose (mat:Matrix, dest:Matrix):Matrix {
+		
+		// If we are transposing ourselves we can skip a few steps but have to cache some values
+		if (dest == null || mat == dest) 
+		{
+			var a01 = mat[1], a02 = mat[2], a03 = mat[3],
+				a12 = mat[6], a13 = mat[7],
+				a23 = mat[11];
+			
+			mat[1] = mat[4];
+			mat[2] = mat[8];
+			mat[3] = mat[12];
+			mat[4] = a01;
+			mat[6] = mat[9];
+			mat[7] = mat[13];
+			mat[8] = a02;
+			mat[9] = a12;
+			mat[11] = mat[14];
+			mat[12] = a03;
+			mat[13] = a13;
+			mat[14] = a23;
+			return mat;
+		}
+		
+		dest[0] = mat[0];
+		dest[1] = mat[4];
+		dest[2] = mat[8];
+		dest[3] = mat[12];
+		dest[4] = mat[1];
+		dest[5] = mat[5];
+		dest[6] = mat[9];
+		dest[7] = mat[13];
+		dest[8] = mat[2];
+		dest[9] = mat[6];
+		dest[10] = mat[10];
+		dest[11] = mat[14];
+		dest[12] = mat[3];
+		dest[13] = mat[7];
+		dest[14] = mat[11];
+		dest[15] = mat[15];
+		return dest;
+		
+	}
+	
+	
 }
 
 
@@ -249,5 +267,6 @@ class Mat4
 	return PIXI.Matrix;
 }
 determineMatrixArrayType();*/
+
 
 typedef Matrix = js.html.Float32Array;

@@ -3,38 +3,10 @@ package pixi.display;
 
 /**
  * @author Mat Groves http://matgroves.com/ @Doormat23
- */
-
-/**
- * A MovieClip is a simple way to display an animation depicted by a list of textures.
- *
- * @class MovieClip
- * @extends Sprite
- * @constructor
- * @param textures {Array<Texture>} an array of {Texture} objects that make up the animation
+ * @author Joshua Granick
  */
 class MovieClip extends Sprite {
 	
-	public var textures:Array<Dynamic>;
-	public var animationSpeed:Float;
-	public var loop:Bool;
-	public var onComplete:Dynamic;
-	public var currentFrame:Int;
-	public var playing:Bool;
-	
-	
-public function new (textures:Array<Texture>)
-{
-	super (textures[0]);
-	//PIXI.Sprite.call(this, textures[0]);
-	
-	/**
-	 * The array of textures that make up the animation
-	 *
-	 * @property textures
-	 * @type Array
-	 */
-	this.textures = textures;
 	
 	/**
 	 * The speed that the MovieClip will play at. Higher is faster, lower is slower
@@ -43,24 +15,7 @@ public function new (textures:Array<Texture>)
 	 * @type Number
 	 * @default 1
 	 */
-	this.animationSpeed = 1;
-
-	/**
-	 * Whether or not the movie clip repeats after playing.
-	 *
-	 * @property loop
-	 * @type Boolean
-	 * @default true
-	 */
-	this.loop = true;
-
-	/**
-	 * Function to call when a MovieClip finishes playing
-	 *
-	 * @property onComplete
-	 * @type Function
-	 */
-	this.onComplete = null;
+	public var animationSpeed:Float;
 	
 	/**
 	 * [read-only] The index MovieClips current frame (this may not have to be a whole number)
@@ -70,7 +25,24 @@ public function new (textures:Array<Texture>)
 	 * @default 0
 	 * @readOnly
 	 */
-	this.currentFrame = 0; 
+	public var currentFrame (default, null):Int;
+	
+	/**
+	 * Whether or not the movie clip repeats after playing.
+	 *
+	 * @property loop
+	 * @type Boolean
+	 * @default true
+	 */
+	public var loop:Bool;
+	
+	/**
+	 * Function to call when a MovieClip finishes playing
+	 *
+	 * @property onComplete
+	 * @type Function
+	 */
+	public var onComplete:Dynamic;
 	
 	/**
 	 * [read-only] Indicates if the MovieClip is currently playing
@@ -79,88 +51,123 @@ public function new (textures:Array<Texture>)
 	 * @type Boolean
 	 * @readOnly
 	 */
-	this.playing = false;
-}
-
-// constructor
-//PIXI.MovieClip.prototype = Object.create( PIXI.Sprite.prototype );
-//PIXI.MovieClip.prototype.constructor = PIXI.MovieClip;
-
-/**
- * Stops the MovieClip
- *
- * @method stop
- */
-public function stop ()
-{
-	this.playing = false;
-}
-
-/**
- * Plays the MovieClip
- *
- * @method play
- */
-public function play ()
-{
-	this.playing = true;
-}
-
-/**
- * Stops the MovieClip and goes to a specific frame
- *
- * @method gotoAndStop
- * @param frameNumber {Number} frame index to stop at
- */
-public function gotoAndStop (frameNumber)
-{
-	this.playing = false;
-	this.currentFrame = frameNumber;
-	var round = (this.currentFrame + 0.5) | 0;
-	this.setTexture(this.textures[round % this.textures.length]);
-}
-
-/**
- * Goes to a specific frame and begins playing the MovieClip
- *
- * @method gotoAndPlay
- * @param frameNumber {Number} frame index to start at
- */
-public function gotoAndPlay (frameNumber)
-{
-	this.currentFrame = frameNumber;
-	this.playing = true;
-}
-
-/*
- * Updates the object transform for rendering
- *
- * @method updateTransform
- * @private
- */
-private override function updateTransform ()
-{
-	super.updateTransform(this);
+	public var playing (default, null):Bool;
 	
-	if(!this.playing)return;
+	/**
+	 * The array of textures that make up the animation
+	 *
+	 * @property textures
+	 * @type Array
+	 */
+	public var textures:Array<Dynamic>;
 	
-	this.currentFrame += this.animationSpeed;
 	
-	var round = (this.currentFrame + 0.5) | 0;
+	/**
+	 * A MovieClip is a simple way to display an animation depicted by a list of textures.
+	 *
+	 * @class MovieClip
+	 * @extends Sprite
+	 * @constructor
+	 * @param textures {Array<Texture>} an array of {Texture} objects that make up the animation
+	 */
+	public function new (textures:Array<Texture>) {
+		
+		super (textures[0]);
+		
+		this.textures = textures;
+		this.animationSpeed = 1;
+		this.loop = true;
+		this.onComplete = null;
+		this.currentFrame = 0; 
+		this.playing = false;
+		
+	}
 	
-	if(this.loop || round < this.textures.length)
-	{
+	
+	/**
+	 * Goes to a specific frame and begins playing the MovieClip
+	 *
+	 * @method gotoAndPlay
+	 * @param frameNumber {Number} frame index to start at
+	 */
+	public function gotoAndPlay (frameNumber:Float):Void {
+		
+		this.currentFrame = frameNumber;
+		this.playing = true;
+		
+	}
+	
+	
+	/**
+	 * Stops the MovieClip and goes to a specific frame
+	 *
+	 * @method gotoAndStop
+	 * @param frameNumber {Number} frame index to stop at
+	 */
+	public function gotoAndStop (frameNumber:Float):Void {
+		
+		this.playing = false;
+		this.currentFrame = frameNumber;
+		var round = (this.currentFrame + 0.5) | 0;
 		this.setTexture(this.textures[round % this.textures.length]);
+		
 	}
-	else if(round >= this.textures.length)
-	{
-		this.gotoAndStop(this.textures.length - 1);
-		if(this.onComplete)
+	
+	
+	/**
+	 * Plays the MovieClip
+	 *
+	 * @method play
+	 */
+	public function play ():Void {
+		
+		this.playing = true;
+		
+	}
+	
+	
+	/**
+	 * Stops the MovieClip
+	 *
+	 * @method stop
+	 */
+	public function stop ():Void {
+		
+		this.playing = false;
+		
+	}
+	
+	
+	/*
+	 * Updates the object transform for rendering
+	 *
+	 * @method updateTransform
+	 * @private
+	 */
+	private override function updateTransform ():Void {
+		
+		super.updateTransform(this);
+		
+		if(!this.playing)return;
+		
+		this.currentFrame += this.animationSpeed;
+		
+		var round = (this.currentFrame + 0.5) | 0;
+		
+		if(this.loop || round < this.textures.length)
 		{
-			this.onComplete();
+			this.setTexture(this.textures[round % this.textures.length]);
 		}
+		else if(round >= this.textures.length)
+		{
+			this.gotoAndStop(this.textures.length - 1);
+			if(this.onComplete)
+			{
+				this.onComplete();
+			}
+		}
+		
 	}
-}
-
-
+	
+	
 }
