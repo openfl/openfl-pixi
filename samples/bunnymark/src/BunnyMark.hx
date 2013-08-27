@@ -5,6 +5,7 @@ import js.html.CanvasElement;
 import js.html.DivElement;
 import js.html.ImageElement;
 import js.Browser;
+import js.JQuery;
 import pixi.display.DisplayObjectContainer;
 import pixi.display.Sprite;
 import pixi.display.Stage;
@@ -120,8 +121,8 @@ class BunnyMark {
 	
 	private function resize () {
 		
-		var width = Browser.document.width; 
-		var height = Browser.document.height; 
+		var width = new JQuery (Browser.window).width (); 
+		var height = new JQuery (Browser.window).height (); 
 		
 		if (width > 800) width  = 800;
 		if (height > 600) height = 600;
@@ -131,11 +132,11 @@ class BunnyMark {
 		maxY = height;
 		minY = 0;
 		
-		var w = Browser.document.width / 2 - width / 2;
-		var h = Browser.document.height / 2 - height / 2;
+		var w = new JQuery (Browser.window).width () / 2 - width / 2;
+		var h = new JQuery (Browser.window).height () / 2 - height / 2;
 		
-		renderer.view.style.left = (Browser.document.width / 2 - width / 2) + "px";
-		renderer.view.style.top = (Browser.document.height / 2 - height / 2) + "px";
+		renderer.view.style.left = (new JQuery (Browser.window).width () / 2 - width / 2) + "px";
+		renderer.view.style.top = (new JQuery (Browser.window).height () / 2 - height / 2) + "px";
 		stats.domElement.style.left = w + "px";
 		stats.domElement.style.top = h + "px";
 		counter.style.left = w + "px";
