@@ -161,6 +161,7 @@ class BunnyMark {
 				var bunny = new Bunny ();
 				bunny.speedX = Math.random () * 10;
 				bunny.speedY = (Math.random () * 10) - 5;
+				bunny.anchor.x = 0.5;
 				bunny.anchor.y = 1;
 				bunnies.push (bunny);
 				bunny.scale.y = 1;
