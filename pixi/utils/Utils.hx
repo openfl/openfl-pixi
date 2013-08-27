@@ -53,9 +53,9 @@ class Utils {
 	 * @method HEXtoRGB
 	 * @param hex {Number}
 	 */
-	public static function HEXtoRGB(hex:Int):Array<Int> {
+	public static function HEXtoRGB(hex:Int):Array<Float> {
 		
-		return [Std.int ((hex >> 16 & 0xFF) / 255), Std.int (( hex >> 8 & 0xFF) / 255), Std.int ((hex & 0xFF)/ 255)];
+		return [(hex >> 16 & 0xFF) / 255, ( hex >> 8 & 0xFF) / 255, (hex & 0xFF)/ 255];
 		
 	}
 	

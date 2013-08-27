@@ -25,7 +25,7 @@ import pixi.Pixi;
 class WebGLRenderGroup {
 	
 	
-	public var backgroundColor:Array<Int>;
+	public var backgroundColor:Array<Float>;
 	public var batchs:Array<Dynamic>;
 	public var gl:GL;
 	public var root:Dynamic;

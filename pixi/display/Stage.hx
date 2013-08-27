@@ -16,7 +16,7 @@ class Stage extends DisplayObjectContainer {
 	
 	
 	public var backgroundColor:Int;
-	public var backgroundColorSplit:Array<Int>;
+	public var backgroundColorSplit:Array<Float>;
 	public var backgroundColorString:String;
 	
 	/**

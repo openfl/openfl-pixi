@@ -1,0 +1,4 @@
+-cp src
+-cp ../../
+-main BunnyMark
+-js bin/js/BunnyMark.js
