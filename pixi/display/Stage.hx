@@ -16,7 +16,7 @@ class Stage extends DisplayObjectContainer {
 	
 	
 	public var backgroundColor:Int;
-	public var backgroundColorSplit:Array<Float>;
+	public var backgroundColorSplit:Array<Int>;
 	public var backgroundColorString:String;
 	
 	/**
@@ -35,7 +35,6 @@ class Stage extends DisplayObjectContainer {
 	 * @type InteractionManager
 	 */
 	public var interactionManager:InteractionManager;
-	public var worldVisible:Bool;
 	
 	public var _interactiveEventsAdded:Bool;
 	private var __childrenAdded:Array<DisplayObject>;

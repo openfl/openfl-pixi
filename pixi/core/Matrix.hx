@@ -9,6 +9,25 @@ package pixi.core;
 class Mat3 {
 	
 	
+	public static function clone (mat:Matrix):Matrix {
+		
+		var matrix = new Matrix(9);
+		
+		matrix[0] = mat[0];
+		matrix[1] = mat[1];
+		matrix[2] = mat[2];
+		matrix[3] = mat[3];
+		matrix[4] = mat[4];
+		matrix[5] = mat[5];
+		matrix[6] = mat[6];
+		matrix[7] = mat[7];
+		matrix[8] = mat[8];
+		
+		return matrix;
+		
+	}
+
+	
 	public static function create ():Matrix {
 		
 		var matrix = new Matrix(9);
@@ -104,7 +123,7 @@ class Mat3 {
 	}
 	
 	
-	public static function transpose (mat:Matrix, dest:Matrix):Matrix {
+	public static function transpose (mat:Matrix, dest:Matrix = null):Matrix {
 		
 		// If we are transposing ourselves we can skip a few steps but have to cache some values
 		if (dest == null || mat == dest) {

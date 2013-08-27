@@ -2,6 +2,8 @@ package pixi;
 
 
 import js.html.webgl.GL;
+import js.html.webgl.Shader;
+import pixi.core.Rectangle;
 import pixi.textures.BaseTexture;
 import pixi.textures.Texture;
 
@@ -20,6 +22,7 @@ class Pixi {
 	public static var texturesToDestroy:Array<Dynamic> = [];
 	public static var texturesToUpdate:Array<Dynamic> = [];
 	public static var visibleCount:Int = 0;
+	public static var _defaultFrame = new Rectangle(0,0,1,1);
 	
 	
 }

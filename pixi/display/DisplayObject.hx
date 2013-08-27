@@ -40,6 +40,8 @@ class DisplayObject {
 	 */
 	public var color:Array<Dynamic>;
 	
+	
+	
 	/**
 	 * This is the defined area that will pick up mouse / touch events. It is null by default.
 	 * Setting it is a neat way of optimising the hitTest function that the interactionManager will use (as it will not need to hit test all the children)
@@ -162,6 +164,7 @@ class DisplayObject {
 	 * @private
 	 */
 	public var worldTransform (default, null):Matrix;
+	public var worldVisible:Bool;
 	
 	/**
 	 * [NYI] Holds whether or not this object is dynamic, for rendering optimization
@@ -183,6 +186,8 @@ class DisplayObject {
 	public var last:Dynamic;
 	public var vcount:Int;
 	public var _iNext:Dynamic;
+	public var __next:Dynamic;
+	public var __prev:Dynamic;
 	public var __iParent:DisplayObjectContainer;
 	public var __renderGroup:Dynamic;
 	

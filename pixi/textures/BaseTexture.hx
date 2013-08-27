@@ -48,7 +48,8 @@ class BaseTexture extends EventTarget {
 	 */
 	public var width (default, null):Float;
 	
-	private var _powerOf2:Bool;
+	public var _glTexture:js.html.webgl.Texture;
+	public var _powerOf2:Bool;
 	
 	
 	/**

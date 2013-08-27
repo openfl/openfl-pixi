@@ -24,6 +24,8 @@ class Sprite extends DisplayObjectContainer {
      */
 	public var anchor:Point;
 	
+	public var batch:Dynamic;
+	
 	/**
 	 * The blend mode of sprite.
 	 * currently supports PIXI.blendModes.NORMAL and PIXI.blendModes.SCREEN

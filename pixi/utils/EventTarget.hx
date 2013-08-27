@@ -43,13 +43,6 @@ class EventTarget {
 		listeners.get (type).push (listener);
 		
 	}
-		
-		
-	public function on (type, listener) {
-		
-		addEventListener (type, listener);
-		
-	}
 	
 	
 	public function dispatchEvent ( event:Dynamic ) {
@@ -71,16 +64,23 @@ class EventTarget {
 	}
 	
 	
-	public function removeEventListener ( type, listener ) {
+	public function off (type, listener) {
 		
-		listeners.get (type).remove (listener);
+		removeEventListener (type, listener);
 		
 	}
 	
 	
-	public function off (type, listener) {
+	public function on (type, listener) {
 		
-		removeEventListener (type, listener);
+		addEventListener (type, listener);
+		
+	}
+	
+	
+	public function removeEventListener ( type, listener ) {
+		
+		listeners.get (type).remove (listener);
 		
 	}
 	

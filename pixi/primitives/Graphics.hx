@@ -35,7 +35,7 @@ class Graphics extends DisplayObjectContainer {
      * @type Number
      */
 	public var fillAlpha:Float;
-	public var fillColor:Float;
+	public var fillColor:Int;
 	public var filling:Bool;
 	
 	/**
@@ -54,7 +54,7 @@ class Graphics extends DisplayObjectContainer {
      * @property lineColor
      * @type String
      */
-	public var lineColor:Float;
+	public var lineColor:Int;
 	
 	/**
      * The width of any lines drawn
@@ -63,6 +63,10 @@ class Graphics extends DisplayObjectContainer {
      * @type Number
      */
 	public var lineWidth:Float;
+	
+	public var points:Dynamic;
+	public var type:Dynamic;
+	public var _webGL:Dynamic;
 	
 	
 	/**

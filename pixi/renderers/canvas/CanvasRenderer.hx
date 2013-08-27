@@ -3,6 +3,7 @@ package pixi.renderers.canvas;
 
 import js.html.CanvasElement;
 import js.html.CanvasRenderingContext2D;
+import js.Browser;
 import pixi.display.DisplayObject;
 import pixi.display.Sprite;
 import pixi.display.Stage;
@@ -70,7 +71,7 @@ class CanvasRenderer {
 	 * @param view {Canvas} the canvas to use as a view, optional
 	 * @param transparent=false {Boolean} the transparency of the render view, default false
 	 */
-	public function new (width:Int = 800, height:Int = 600, view:Dynamic = null, transparent:Bool = false) {
+	public function new (width:Int = 800, height:Int = 600, view:CanvasElement = null, transparent:Bool = false) {
 		
 		this.transparent = transparent;
 		this.width = width;
@@ -78,7 +79,7 @@ class CanvasRenderer {
 
 		if (view == null) {
 			
-			view = js.Browser.document.createElement ("canvas");
+			view = cast Browser.document.createElement ("canvas");
 			
 		}
 		this.view = view;

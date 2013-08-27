@@ -1,6 +1,7 @@
 package pixi.extras;
 
 
+import js.html.webgl.Buffer;
 import js.html.Float32Array;
 import js.html.Uint16Array;
 import pixi.display.DisplayObjectContainer;
@@ -17,6 +18,7 @@ class Strip extends DisplayObjectContainer {
 	
 	public var blendMode:BlendModes;
 	public var colors:Float32Array;
+	public var dirty:Bool;
 	public var height:Float;
 	public var indices:Uint16Array;
 	public var texture:Texture;
@@ -24,6 +26,11 @@ class Strip extends DisplayObjectContainer {
 	public var uvs:Float32Array;
 	public var verticies:Float32Array;
 	public var width:Float;
+	
+	public var _colorBuffer:Buffer;
+	public var _indexBuffer:Buffer;
+	public var _uvBuffer:Buffer;
+	public var _vertexBuffer:Buffer;
 	
 	
 	public function new (texture:Texture, width:Float, height:Float) {

@@ -1,6 +1,9 @@
 package pixi.extras;
 
 
+import js.html.webgl.Buffer;
+import js.html.Float32Array;
+import js.html.Uint16Array;
 import pixi.core.Point;
 import pixi.display.DisplayObjectContainer;
 import pixi.textures.Texture;
@@ -15,6 +18,7 @@ class TilingSprite extends DisplayObjectContainer {
 	
 	
 	public var blendMode:BlendModes;
+	public var colors:Float32Array;
 	
 	/**
 	 * The height of the tiling sprite
@@ -23,6 +27,7 @@ class TilingSprite extends DisplayObjectContainer {
 	 * @type Number
 	 */
 	public var height:Float;
+	public var indices:Uint16Array;
 	
 	/**
 	 * The texture that the sprite is using
@@ -48,6 +53,8 @@ class TilingSprite extends DisplayObjectContainer {
 	 */	
 	public var tileScale:Point;
 	public var updateFrame:Bool;
+	public var uvs:Float32Array;
+	public var verticies:Float32Array;
 	
 	/**
 	 * The width of the tiling sprite
@@ -57,6 +64,10 @@ class TilingSprite extends DisplayObjectContainer {
 	 */
 	public var width:Float;
 	
+	public var _colorBuffer:Buffer;
+	public var _indexBuffer:Buffer;
+	public var _uvBuffer:Buffer;
+	public var _vertexBuffer:Buffer;
 	public var __tilePattern:Dynamic;
 	
 	
