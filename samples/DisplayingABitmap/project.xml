@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project>
+	
+	<meta title="Displaying a Bitmap" package="org.openfl.samples.displayingabitmap" version="1.0.0" company="OpenFL Technologies" />
+	<app main="Main" path="Export" file="DisplayingABitmap" />
+	
+	<window fps="60" />
+	
+	<source path="Source" />
+	
+	<set name="custom-html5-backend" value="1" />
+	<haxelib name="openfl" />
+	<haxelib name="openfl-pixi" if="html5" />
+	
+	<assets path="Assets" rename="assets" exclude="*.svg" />
+	<icon path="Assets/openfl.svg" />
+	
+</project>

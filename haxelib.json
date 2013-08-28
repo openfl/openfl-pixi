@@ -1,0 +1,11 @@
+{
+	"name": "openfl-pixi",
+	"url": "http://www.openfl.org",
+	"license": "MIT",
+	"tags": [],
+	"description": "OpenFL support for HTML5 using the pixi rendering engine",
+	"version": "1.0.0",
+	"releasenote": "Initial release",
+	"contributors": [ "singmajesty" ],
+	"dependencies": {}
+}
