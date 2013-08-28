@@ -65,7 +65,7 @@ class Stage extends DisplayObjectContainer {
 		this.__childrenRemoved = [];
 		
 		//the stage is it's own stage
-		this.stage = this;
+		this.stage = #if openfl cast #end this;
 		
 		//optimize hit detection a bit
 		this.stage.hitArea = new Rectangle(0,0,100000, 100000);
