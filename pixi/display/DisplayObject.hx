@@ -12,7 +12,7 @@ import pixi.Pixi;
  * @author Mat Groves http://matgroves.com/ @Doormat23
  * @author Joshua Granick
  */
-class DisplayObject {
+class DisplayObject #if openfl extends pixi.utils.EventTarget #end {
 	
 	
 	/**
@@ -199,6 +199,10 @@ class DisplayObject {
 	 * @constructor
 	 */
 	public function new () {
+		
+		#if openfl
+		super ();
+		#end
 		
 		this.last = this;
 		this.first = this;
