@@ -20,8 +20,8 @@ class BunnyMark {
 	public var canvas:CanvasElement;
 	public var renderer:Dynamic;
 	public var stage:Stage;
-	public var width:Int;
-	public var height:Int;
+	public var width:Int = 480;
+	public var height:Int = 320;
 	
 	private var addingBunnies:Bool;
 	private var bunnies:Array<Bunny>;
@@ -44,7 +44,7 @@ class BunnyMark {
 		
 		initialize ();
 		construct ();
-		
+
 	}
 	
 	
@@ -91,11 +91,12 @@ class BunnyMark {
 		
 		Browser.window.requestAnimationFrame (cast update);
 		
-		renderer.view.addEventListener ("mousedown", this_onTouchStart);
-		renderer.view.addEventListener ("mouseup", this_onTouchEnd);
+		new JQuery (Browser.window).resize (this_onResize);
+		untyped (window).onorientationchange = this_onResize;
+		new JQuery (renderer.view).mousedown (this_onTouchStart);
+		new JQuery (renderer.view).mouseup (this_onTouchEnd);
 		Browser.document.addEventListener ("touchstart", this_onTouchStart, true);
 		Browser.document.addEventListener ("touchend", this_onTouchEnd, true);
-		Browser.window.addEventListener ("resize", this_onResize);
 		
 		resize ();
 		
@@ -122,7 +123,7 @@ class BunnyMark {
 	private function resize () {
 		
 		var width = new JQuery (Browser.window).width (); 
-		var height = new JQuery (Browser.window).height (); 
+		var height = new JQuery (Browser.window).height ();
 		
 		if (width > 800) width  = 800;
 		if (height > 600) height = 600;
@@ -245,6 +246,8 @@ class BunnyMark {
 	
 	
 	private function this_onTouchStart (event) {
+		
+		event.preventDefault ();
 		
 		addingBunnies = true;
 		
