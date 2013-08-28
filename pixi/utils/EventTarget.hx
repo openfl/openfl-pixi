@@ -47,10 +47,14 @@ class EventTarget {
 	
 	public function dispatchEvent ( event:Dynamic ) {
 		
-		for (listener in listeners.get (event.type)) {
+		if (listeners.exists (event.type)) {
 			
-			var callback = listener;
-			Reflect.callMethod (callback, callback, event);
+			for (listener in listeners.get (event.type)) {
+				
+				var callback = listener;
+				Reflect.callMethod (callback, callback, event);
+				
+			}
 			
 		}
 		
