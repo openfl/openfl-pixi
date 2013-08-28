@@ -20,6 +20,8 @@ class DocumentClass extends ::APP_MAIN_CLASS:: {
         	Browser.document.body.appendChild (__renderer.view);
         	
     	}
+    	
+    	this.stage = __stage;
         
 		super ();
 		

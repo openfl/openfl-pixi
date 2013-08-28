@@ -14,13 +14,16 @@ class Main extends Sprite {
 		super ();
 		
 		#if pixi
-		var bitmapData = BitmapData.fromImage ("assets/openfl.png");
+		var bitmap = new Bitmap (BitmapData.fromImage ("assets/openfl.png"));
+		bitmap.width = 400;
+		bitmap.height = 400;
 		#else
-		var bitmapData = openfl.Assets.getBitmapData ("assets/openfl.png");
+		var bitmap = new Bitmap (openfl.Assets.getBitmapData ("assets/openfl.png"));
 		#end
-		
-		var bitmap = new Bitmap (bitmapData);
 		addChild (bitmap);
+		
+		bitmap.x = (stage.stageWidth - bitmap.width) / 2;
+		bitmap.y = (stage.stageHeight - bitmap.height) / 2;
 		
 	}
 	
