@@ -9,37 +9,18 @@ import flash.display.Sprite;
 class Main extends Sprite {
 	
 	
-	private var bitmap:Bitmap;
-	
-	
 	public function new () {
 		
 		super ();
 		
 		#if pixi
-		
-		bitmap = new Bitmap (BitmapData.fromImage ("assets/openfl.png"));
-		bitmap.position.x = 100;
-		bitmap.position.y = 100;
-		
+		var bitmapData = BitmapData.fromImage ("assets/openfl.png");
 		#else
-		
-		var bitmap = new Bitmap (openfl.Assets.getBitmapData ("assets/openfl.png"));
-		bitmap.x = 100;
-		bitmap.y = 200;
-		
+		var bitmapData = openfl.Assets.getBitmapData ("assets/openfl.png");
 		#end
 		
+		var bitmap = new Bitmap (bitmapData);
 		addChild (bitmap);
-		
-		addEventListener ("enterFrame", this_onEnterFrame);
-		
-	}
-	
-	
-	private function this_onEnterFrame (event) {
-		
-		bitmap.rotation += 1 #if pixi * (Math.PI / 180) #end;
 		
 	}
 	
