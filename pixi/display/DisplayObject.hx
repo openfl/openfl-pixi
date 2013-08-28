@@ -136,7 +136,7 @@ class DisplayObject #if openfl extends pixi.utils.EventTarget #end {
 	 * @type Stage
 	 * @readOnly
 	 */	
-	public var stage:Stage;
+	public var stage:#if openfl flash.display.Stage #else Stage #end;
 	
 	/**
 	 * The visibility of the object.
@@ -165,6 +165,11 @@ class DisplayObject #if openfl extends pixi.utils.EventTarget #end {
 	 */
 	public var worldTransform (default, null):Matrix;
 	public var worldVisible:Bool;
+	
+	#if openfl
+	public var x (get, set):Float;
+	public var y (get, set):Float;
+	#end
 	
 	/**
 	 * [NYI] Holds whether or not this object is dynamic, for rendering optimization
@@ -216,7 +221,7 @@ class DisplayObject #if openfl extends pixi.utils.EventTarget #end {
 		this.buttonMode = false;
 		this.renderable = false;
 		this.parent = null;
-		this.stage = null;
+		//this.stage = null;
 		this.worldAlpha = 1;
 		this._interactive = false;
 		this.worldTransform = Mat3.create();//mat3.identity();
@@ -575,6 +580,36 @@ class DisplayObject #if openfl extends pixi.utils.EventTarget #end {
 		return value;
 		
 	}
+	
+	
+	#if openfl
+	
+	private function get_x ():Float {
+		
+		return position.x;
+		
+	}
+	
+	private function set_x (value:Float):Float {
+		
+		return position.x = value;
+		
+	}
+	
+	
+	private function get_y ():Float {
+		
+		return position.y;
+		
+	}
+	
+	private function set_y (value:Float):Float {
+		
+		return position.y = value;
+		
+	}
+	
+	#end
 	
 	
 }
