@@ -1,7 +1,7 @@
 package pixi.extras;
 
 
-import pixi.display.DisplayObject;
+import flash.display.DisplayObject;
 import pixi.renderers.canvas.CanvasRenderer;
 
 

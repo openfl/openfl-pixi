@@ -1,8 +1,8 @@
 package pixi.renderers.canvas;
 
 
+import flash.display.Graphics;
 import js.html.CanvasRenderingContext2D;
-import pixi.primitives.Graphics;
 
 
 /**

@@ -5,7 +5,6 @@ import pixi.core.Matrix;
 import pixi.core.Point;
 import pixi.core.Rectangle;
 import pixi.renderers.canvas.CanvasRenderer;
-import pixi.Pixi;
 
 
 /**

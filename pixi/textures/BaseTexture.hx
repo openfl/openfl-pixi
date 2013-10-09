@@ -1,17 +1,23 @@
 package pixi.textures;
 
 
+import flash.display.BitmapData;
+import flash.events.Event;
+import flash.events.EventDispatcher;
 import js.html.Image;
-import pixi.utils.EventTarget;
-import pixi.Pixi;
 
 
 /**
  * @author Mat Groves http://matgroves.com/ @Doormat23
  * @author Joshua Granick
  */
-class BaseTexture extends EventTarget {
+class BaseTexture extends EventDispatcher {
 	
+	
+	public static var BaseTextureCache = new Map <String, BaseTexture> ();
+	
+	public static var texturesToDestroy:Array<Dynamic> = [];
+	public static var texturesToUpdate:Array<Dynamic> = [];
 	
 	/**
 	 * [read-only] Describes if the base texture has loaded or not
@@ -79,7 +85,7 @@ class BaseTexture extends EventTarget {
 				this.width = this.source.width;
 				this.height = this.source.height;
 				
-				Pixi.texturesToUpdate.push(this);
+				texturesToUpdate.push(this);
 			}
 			else
 			{
@@ -92,8 +98,9 @@ class BaseTexture extends EventTarget {
 					scope.height = scope.source.height;
 				
 					// add it to somewhere...
-					Pixi.texturesToUpdate.push(scope);
-					scope.dispatchEvent( { type: 'loaded', content: scope } );
+					texturesToUpdate.push(scope);
+					scope.dispatchEvent (new Event ("loaded"));
+					//scope.dispatchEvent( { type: 'loaded', content: scope } );
 				}
 				//	this.image.src = imageUrl;
 			}
@@ -104,7 +111,7 @@ class BaseTexture extends EventTarget {
 			this.width = this.source.width;
 			this.height = this.source.height;
 				
-			Pixi.texturesToUpdate.push(this);
+			texturesToUpdate.push(this);
 		}
 		
 		this._powerOf2 = false;
@@ -124,7 +131,7 @@ class BaseTexture extends EventTarget {
 			this.source.src = null;
 		}
 		this.source = null;
-		Pixi.texturesToDestroy.push(this);
+		texturesToDestroy.push(this);
 		
 	}
 	
@@ -140,7 +147,7 @@ class BaseTexture extends EventTarget {
 	 */
 	public static function fromImage (imageUrl:String, crossorigin:Bool = false):BaseTexture {
 		
-		var baseTexture = Pixi.BaseTextureCache.get (imageUrl);
+		var baseTexture = BaseTextureCache.get (imageUrl);
 		if(baseTexture == null)
 		{
 			// new Image() breaks tex loading in some versions of Chrome.
@@ -152,7 +159,7 @@ class BaseTexture extends EventTarget {
 			}
 			image.src = imageUrl;
 			baseTexture = new BaseTexture(image);
-			Pixi.BaseTextureCache.set (imageUrl, baseTexture);
+			BaseTextureCache.set (imageUrl, baseTexture);
 		}
 
 		return baseTexture;

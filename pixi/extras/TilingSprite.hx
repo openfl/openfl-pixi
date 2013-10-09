@@ -1,13 +1,13 @@
 package pixi.extras;
 
 
+import flash.display.BitmapData;
+import flash.display.BlendMode;
+import flash.display.DisplayObjectContainer;
+import flash.geom.Point;
 import js.html.webgl.Buffer;
 import js.html.Float32Array;
 import js.html.Uint16Array;
-import pixi.core.Point;
-import pixi.display.DisplayObjectContainer;
-import pixi.textures.Texture;
-import pixi.Pixi;
 
 
 /**
@@ -17,7 +17,7 @@ import pixi.Pixi;
 class TilingSprite extends DisplayObjectContainer {
 	
 	
-	public var blendMode:BlendModes;
+	public var blendMode:BlendMode;
 	public var colors:Float32Array;
 	
 	/**
@@ -35,7 +35,7 @@ class TilingSprite extends DisplayObjectContainer {
 	 * @property texture
 	 * @type Texture
 	 */
-	public var texture:Texture;
+	public var bitmapData:BitmapData;
 	
 	/**
 	 * The offset position of the image that is being tiled
@@ -81,18 +81,18 @@ class TilingSprite extends DisplayObjectContainer {
 	 * @param width {Number}  the width of the tiling sprite
 	 * @param height {Number} the height of the tiling sprite
 	 */
-	public function new (texture:Texture, width:Float, height:Float) {
+	public function new (bitmapData:BitmapData, width:Float, height:Float) {
 		
 		super ();
 		
-		this.texture = texture;
+		this.bitmapData = bitmapData;
 		this.width = width;
 		this.height = height;
 		
 		this.tileScale = new Point(1,1);
 		this.tilePosition = new Point(0,0);
 		this.renderable = true;
-		this.blendMode = BlendModes.NORMAL;
+		this.blendMode = BlendMode.NORMAL;
 		
 	}
 	
@@ -117,13 +117,13 @@ class TilingSprite extends DisplayObjectContainer {
 	 * @method setTexture
 	 * @param texture {Texture} The PIXI texture that is displayed by the sprite
 	 */
-	public function setTexture (texture:Texture):Void {
+	public function setTexture (bitmapData:BitmapData):Void {
 		
 		//TODO SET THE TEXTURES
 		//TODO VISIBILITY
 		
 		// stop current texture 
-		this.texture = texture;
+		this.bitmapData = bitmapData;
 		this.updateFrame = true;
 		
 	}

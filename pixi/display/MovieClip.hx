@@ -5,7 +5,7 @@ package pixi.display;
  * @author Mat Groves http://matgroves.com/ @Doormat23
  * @author Joshua Granick
  */
-class MovieClip extends Sprite {
+class MovieClip extends Bitmap {
 	
 	
 	/**

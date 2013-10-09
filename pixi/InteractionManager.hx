@@ -1,13 +1,12 @@
 package pixi;
 
 
+import flash.display.Bitmap;
+import flash.display.DisplayObject;
+import flash.display.DisplayObjectContainer;
+import flash.display.Stage;
+import flash.geom.Point;
 import js.Browser;
-import pixi.core.Point;
-import pixi.display.DisplayObject;
-import pixi.display.DisplayObjectContainer;
-import pixi.display.Sprite;
-import pixi.display.Stage;
-import pixi.Pixi;
 
 
 /**
@@ -140,9 +139,9 @@ class InteractionManager {
 		
 		var global = interactionData.global;
 		
-		if(item.vcount != Pixi.visibleCount)return false;
+		if(item.vcount != DisplayObject.visibleCount)return false;
 		
-		var isSprite = Std.is (item, Sprite),
+		var isSprite = Std.is (item, Bitmap),
 			worldTransform = item.worldTransform,
 			a00 = worldTransform[0], a01 = worldTransform[1], a02 = worldTransform[2],
 			a10 = worldTransform[3], a11 = worldTransform[4], a12 = worldTransform[5],
@@ -166,14 +165,14 @@ class InteractionManager {
 		// a sprite with no hitarea defined
 		else if(isSprite)
 		{
-			var width = cast (item, Sprite).texture.frame.width,
-				height = cast (item, Sprite).texture.frame.height,
-				x1 = -width * cast (item, Sprite).anchor.x,
+			var width = cast (item, Bitmap).bitmapData.frame.width,
+				height = cast (item, Bitmap).bitmapData.frame.height,
+				x1 = -width * cast (item, Bitmap).anchor.x,
 				y1;
 			
 			if(x > x1 && x < x1 + width)
 			{
-				y1 = -height * cast (item, Sprite).anchor.y;
+				y1 = -height * cast (item, Bitmap).anchor.y;
 			
 				if(y > y1 && y < y1 + height)
 				{
@@ -184,11 +183,11 @@ class InteractionManager {
 			}
 		}
 		
-		var length = cast (item, Sprite).children.length;
+		var length = cast (item, Bitmap).children.length;
 		
 		for (i in 0...length)
 		{
-			var tempItem = cast (item, Sprite).children[i];
+			var tempItem = cast (item, Bitmap).children[i];
 			var hit = this.hitTest(tempItem, interactionData);
 			if(hit)
 			{
@@ -482,7 +481,7 @@ class InteractionManager {
 			var touchEvent = changedTouches[i];
 			
 			var touchData:Dynamic = this.pool.pop();
-			if(!touchData)touchData = new pixi.InteractionData();
+			if(!touchData)touchData = new InteractionData();
 			
 			touchData.originalEvent =  event != null ? event : Browser.window.event;
 			
@@ -667,7 +666,7 @@ class InteractionData {
 	 * @property target
 	 * @type Sprite
 	 */
-	public var target:Sprite;
+	public var target:Bitmap;
 	
 	
 	/**

@@ -1,13 +1,14 @@
 package pixi.renderers.webgl;
 
 
+import flash.display.Bitmap;
+import flash.display.BlendMode;
+import flash.display.DisplayObject;
 import js.html.webgl.Buffer;
 import js.html.webgl.GL;
 import js.html.Float32Array;
 import js.html.Uint16Array;
-import pixi.display.Sprite;
 import pixi.textures.BaseTexture;
-import pixi.Pixi;
 
 
 /**
@@ -19,7 +20,7 @@ class WebGLBatch {
 	
 	public static var _batchs:Array<WebGLBatch> = [];
 	
-	public var blendMode:BlendModes;
+	public var blendMode:BlendMode;
 	public var colorBuffer:Buffer;
 	public var colorIndex:Int;
 	public var colors:Float32Array;
@@ -64,7 +65,7 @@ class WebGLBatch {
 		this.indexBuffer =  gl.createBuffer();
 		this.uvBuffer =  gl.createBuffer();
 		this.colorBuffer =  gl.createBuffer();
-		this.blendMode = BlendModes.NORMAL;
+		this.blendMode = BlendMode.NORMAL;
 		this.dynamicSize = 1;
 		
 	}
@@ -155,12 +156,12 @@ class WebGLBatch {
 	 * @param sprite {Sprite} the first sprite to be added to the batch. Only sprites with
 	 *		the same base texture and blend mode will be allowed to be added to this batch
 	 */	
-	public function init (sprite:Sprite):Void {
+	public function init (sprite:Bitmap):Void {
 		
 		sprite.batch = this;
 		this.dirty = true;
 		this.blendMode = sprite.blendMode;
-		this.texture = sprite.texture.baseTexture;
+		this.texture = sprite.bitmapData.baseTexture;
 		this.head = sprite;
 		this.tail = sprite;
 		this.size = 1;
@@ -177,7 +178,7 @@ class WebGLBatch {
 	 * @param sprite {Sprite} the sprite to be added
 	 * @param  previousSprite {Sprite} the first sprite will be inserted after this sprite
 	 */	
-	public function insertAfter (sprite:Sprite, previousSprite:Sprite):Void {
+	public function insertAfter (sprite:Bitmap, previousSprite:Bitmap):Void {
 		
 		this.size++;
 		
@@ -208,7 +209,7 @@ class WebGLBatch {
 	 * @param sprite {Sprite} the sprite to be added
 	 * @param nextSprite {nextSprite} the first sprite will be inserted before this sprite
 	 */	
-	public function insertBefore (sprite:Sprite, nextSprite:Sprite):Void {
+	public function insertBefore (sprite:Bitmap, nextSprite:Bitmap):Void {
 		
 		this.size++;
 		
@@ -282,11 +283,11 @@ class WebGLBatch {
 		{
 			index = indexRun * 8;
 			
-			var texture = displayObject.texture;
+			var bitmapData = displayObject.bitmapData;
 			
-			var frame = texture.frame;
-			var tw = texture.baseTexture.width;
-			var th = texture.baseTexture.height;
+			var frame = bitmapData.frame;
+			var tw = bitmapData.baseTexture.width;
+			var th = bitmapData.baseTexture.height;
 			
 			this.uvs[index + 0] = frame.x / tw;
 			this.uvs[index +1] = frame.y / th;
@@ -322,7 +323,7 @@ class WebGLBatch {
 	 * @method remove
 	 * @param sprite {Sprite} the sprite to be removed
 	 */	
-	public function remove (sprite:Sprite):Void {
+	public function remove (sprite:Bitmap):Void {
 		
 		this.size--;
 		
@@ -452,7 +453,7 @@ class WebGLBatch {
 	 * @param sprite {Sprite} the sprite that indicates where the batch should be split
 	 * @return {WebGLBatch} the new batch
 	 */
-	public function split (sprite:Sprite):WebGLBatch {
+	public function split (sprite:Bitmap):WebGLBatch {
 		
 		this.dirty = true;
 		
@@ -506,10 +507,10 @@ class WebGLBatch {
 		
 		while(displayObject != null)
 		{
-			if(displayObject.vcount == Pixi.visibleCount)
+			if(displayObject.vcount == DisplayObject.visibleCount)
 			{
-				width = displayObject.texture.frame.width;
-				height = displayObject.texture.frame.height;
+				width = displayObject.bitmapData.frame.width;
+				height = displayObject.bitmapData.frame.height;
 				
 				// TODO trim??
 				aX = displayObject.anchor.x;// - displayObject.texture.trim.x
@@ -543,15 +544,15 @@ class WebGLBatch {
 				this.verticies[index + 6] =  a * w1 + c * h0 + tx; 
 				this.verticies[index + 7] =  d * h0 + b * w1 + ty; 
 				
-				if(displayObject.updateFrame || displayObject.texture.updateFrame)
+				if(displayObject.updateFrame || displayObject.bitmapData.updateFrame)
 				{
 					this.dirtyUVS = true;
 					
-					var texture = displayObject.texture;
+					var bitmapData = displayObject.bitmapData;
 					
-					var frame = texture.frame;
-					var tw = texture.baseTexture.width;
-					var th = texture.baseTexture.height;
+					var frame = bitmapData.frame;
+					var tw = bitmapData.baseTexture.width;
+					var th = bitmapData.baseTexture.height;
 					
 					this.uvs[index + 0] = frame.x / tw;
 					this.uvs[index +1] = frame.y / th;

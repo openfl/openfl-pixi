@@ -1,19 +1,19 @@
 package pixi.renderers.canvas;
 
 
+import flash.display.Bitmap;
+import flash.display.BitmapData;
+import flash.display.DisplayObject;
+import flash.display.Graphics;
+import flash.display.Stage;
 import js.html.CanvasElement;
 import js.html.CanvasRenderingContext2D;
 import js.Browser;
-import pixi.display.DisplayObject;
-import pixi.display.Sprite;
-import pixi.display.Stage;
 import pixi.extras.CustomRenderable;
 import pixi.extras.Strip;
 import pixi.extras.TilingSprite;
 import pixi.filters.FilterBlock;
-import pixi.primitives.Graphics;
-import pixi.textures.Texture;
-import pixi.Pixi;
+import pixi.textures.BaseTexture;
 
 
 /**
@@ -108,10 +108,10 @@ class CanvasRenderer {
 		//stage.__childrenRemoved = [];
 		
 		// update textures if need be
-		Pixi.texturesToUpdate = [];
-		Pixi.texturesToDestroy = [];
+		BaseTexture.texturesToUpdate = [];
+		BaseTexture.texturesToDestroy = [];
 		
-		Pixi.visibleCount++;
+		DisplayObject.visibleCount++;
 		stage.updateTransform();
 		
 		// update the background color
@@ -134,9 +134,9 @@ class CanvasRenderer {
 		}
 		
 		// remove frame updates..
-		if(Texture.frameUpdates.length > 0)
+		if(BitmapData.frameUpdates.length > 0)
 		{
-			Texture.frameUpdates = [];
+			BitmapData.frameUpdates = [];
 		}
 		
 		
@@ -178,24 +178,24 @@ class CanvasRenderer {
 				continue;
 			}
 			
-			if(Std.is (displayObject, Sprite))
+			if(Std.is (displayObject, Bitmap))
 			{
 				
-				var frame = cast (displayObject, Sprite).texture.frame;
+				var frame = cast (displayObject, Bitmap).bitmapData.frame;
 				
 				if(frame != null)
 				{
-					context.globalAlpha = cast (displayObject, Sprite).worldAlpha;
+					context.globalAlpha = cast (displayObject, Bitmap).worldAlpha;
 					
 					context.setTransform(transform[0], transform[3], transform[1], transform[4], transform[2], transform[5]);
 						
-					context.drawImage(cast (displayObject, Sprite).texture.baseTexture.source, 
+					context.drawImage(cast (displayObject, Bitmap).bitmapData.baseTexture.source, 
 									frame.x,
 									frame.y,
 									frame.width,
 									frame.height,
-									(cast (displayObject, Sprite).anchor.x) * -frame.width, 
-									(cast (displayObject, Sprite).anchor.y) * -frame.height,
+									(cast (displayObject, Bitmap).anchor.x) * -frame.width, 
+									(cast (displayObject, Bitmap).anchor.y) * -frame.height,
 									frame.width,
 									frame.height);
 				}					   
@@ -280,8 +280,8 @@ class CanvasRenderer {
 			var x0 = verticies[index],   x1 = verticies[index+2], x2 = verticies[index+4];
 			var y0 = verticies[index+1], y1 = verticies[index+3], y2 = verticies[index+5];
 			
-			var u0 = uvs[index] * strip.texture.width,   u1 = uvs[index+2] * strip.texture.width, u2 = uvs[index+4]* strip.texture.width;
-			var v0 = uvs[index+1]* strip.texture.height, v1 = uvs[index+3] * strip.texture.height, v2 = uvs[index+5]* strip.texture.height;
+			var u0 = uvs[index] * strip.bitmapData.width,   u1 = uvs[index+2] * strip.bitmapData.width, u2 = uvs[index+4]* strip.bitmapData.width;
+			var v0 = uvs[index+1]* strip.bitmapData.height, v1 = uvs[index+3] * strip.bitmapData.height, v2 = uvs[index+5]* strip.bitmapData.height;
 			
 			context.save();
 			context.beginPath();
@@ -305,7 +305,7 @@ class CanvasRenderer {
 							delta_b/delta, delta_e/delta,
 							delta_c/delta, delta_f/delta);
 			
-			context.drawImage(strip.texture.baseTexture.source, 0, 0);
+			context.drawImage(strip.bitmapData.baseTexture.source, 0, 0);
 			context.restore();
 			
 			i++;
@@ -369,7 +369,7 @@ class CanvasRenderer {
 		
 		context.globalAlpha = sprite.worldAlpha;
 		
-	 	if(sprite.__tilePattern == null) sprite.__tilePattern = context.createPattern(sprite.texture.baseTexture.source, "repeat");
+	 	if(sprite.__tilePattern == null) sprite.__tilePattern = context.createPattern(sprite.bitmapData.baseTexture.source, "repeat");
 	 	
 		context.beginPath();
 		

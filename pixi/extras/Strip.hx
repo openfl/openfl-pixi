@@ -1,12 +1,12 @@
 package pixi.extras;
 
 
+import flash.display.BitmapData;
+import flash.display.BlendMode;
+import flash.display.DisplayObjectContainer;
 import js.html.webgl.Buffer;
 import js.html.Float32Array;
 import js.html.Uint16Array;
-import pixi.display.DisplayObjectContainer;
-import pixi.textures.Texture;
-import pixi.Pixi;
 
 
 /**
@@ -16,12 +16,12 @@ import pixi.Pixi;
 class Strip extends DisplayObjectContainer {
 	
 	
-	public var blendMode:BlendModes;
+	public var blendMode:BlendMode;
 	public var colors:Float32Array;
 	public var dirty:Bool;
 	public var height:Float;
 	public var indices:Uint16Array;
-	public var texture:Texture;
+	public var bitmapData:BitmapData;
 	public var updateFrame:Bool;
 	public var uvs:Float32Array;
 	public var verticies:Float32Array;
@@ -33,12 +33,12 @@ class Strip extends DisplayObjectContainer {
 	public var _vertexBuffer:Buffer;
 	
 	
-	public function new (texture:Texture, width:Float, height:Float) {
+	public function new (bitmapData:BitmapData, width:Float, height:Float) {
 		
 		super ();
 		
-		this.texture = texture;
-		this.blendMode = BlendModes.NORMAL;
+		this.bitmapData = bitmapData;
+		this.blendMode = BlendMode.NORMAL;
 		
 		try {
 			
@@ -81,15 +81,15 @@ class Strip extends DisplayObjectContainer {
 		this.height = height;
 		
 		// load the texture!
-		if(texture.baseTexture.hasLoaded)
+		if(bitmapData.baseTexture.hasLoaded)
 		{
-			this.width = this.texture.frame.width;
-			this.height = this.texture.frame.height;
+			this.width = this.bitmapData.frame.width;
+			this.height = this.bitmapData.frame.height;
 			this.updateFrame = true;
 		}
 		else
 		{
-			this.texture.addEventListener ('update', this.onTextureUpdate);
+			this.bitmapData.addEventListener ('update', this.onTextureUpdate);
 		}
 		
 		this.renderable = true;
@@ -103,15 +103,15 @@ class Strip extends DisplayObjectContainer {
 	}
 	
 	
-	public function setTexture (texture:Texture):Void {
+	public function setTexture (bitmapData:BitmapData):Void {
 		
 		//TODO SET THE TEXTURES
 		//TODO VISIBILITY
 		
 		// stop current texture 
-		this.texture = texture;
-		this.width   = texture.frame.width;
-		this.height  = texture.frame.height;
+		this.bitmapData = bitmapData;
+		this.width   = bitmapData.frame.width;
+		this.height  = bitmapData.frame.height;
 		this.updateFrame = true;
 		
 	}

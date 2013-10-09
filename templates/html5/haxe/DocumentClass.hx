@@ -1,5 +1,6 @@
 import ::APP_MAIN_PACKAGE::::APP_MAIN_CLASS::;
 import flash.display.Stage;
+import flash.events.Event;
 import js.Browser;
 import pixi.utils.Detector;
 
@@ -34,7 +35,7 @@ class DocumentClass extends ::APP_MAIN_CLASS:: {
 	private function __enterFrame (_) {
 		
         Browser.window.requestAnimationFrame (__enterFrame);
-        dispatchEvent ({ type: "enterFrame", content: this });
+        dispatchEvent (new Event (Event.ENTER_FRAME));
         __renderer.render (__stage);
         
         return true;

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension>
 	
-	<set name="custom-html5-backend" value="true" />
+	<set name="html5-backend" value="openfl-pixi" />
 	<haxedef name="pixi" />
 	
 	<template path="templates" />

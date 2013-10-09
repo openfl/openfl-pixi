@@ -1,14 +1,14 @@
 package pixi.renderers.webgl;
 
 
+import flash.display.BitmapData;
+import flash.display.DisplayObject;
+import flash.display.Stage;
+import flash.geom.Point;
 import js.html.webgl.GL;
 import js.html.CanvasElement;
 import js.Browser;
-import pixi.core.Point;
-import pixi.display.Stage;
 import pixi.textures.BaseTexture;
-import pixi.textures.Texture;
-import pixi.Pixi;
 
 
 /**
@@ -18,7 +18,7 @@ import pixi.Pixi;
 class WebGLRenderer {
 	
 	
-	public var gl:GL;
+	public static var gl:GL;
 	public static var projection:Point;
 	
 	public var batch:WebGLBatch;
@@ -74,7 +74,7 @@ class WebGLRenderer {
 		
 		try 
 	 	{
-			Pixi.gl = this.gl = untyped __js__('this.view.getContext("experimental-webgl",  {  	
+			WebGLRenderer.gl = untyped __js__('this.view.getContext("experimental-webgl",  {  	
 				 alpha: this.transparent,
 				 antialias: antialias, // SPEED UP??
 				 premultipliedAlpha:false,
@@ -107,7 +107,7 @@ class WebGLRenderer {
 		this.resize(this.width, this.height);
 		this.contextLost = false;
 
-		this.stageRenderGroup = new WebGLRenderGroup(this.gl);
+		this.stageRenderGroup = new WebGLRenderGroup(WebGLRenderer.gl);
 		
 	}
 	
@@ -122,7 +122,7 @@ class WebGLRenderer {
 	private static function destroyTexture (texture:BaseTexture):Void {
 		
 		//TODO break this out into a texture manager...
-		var gl = Pixi.gl;
+		var gl = WebGLRenderer.gl;
 
 		if(texture._glTexture != null)
 		{
@@ -146,7 +146,7 @@ class WebGLRenderer {
 		
 		if(WebGLBatch._batchs.length == 0)
 		{
-			return new WebGLBatch(Pixi.gl);
+			return new WebGLBatch(WebGLRenderer.gl);
 		}
 		else
 		{
@@ -180,26 +180,26 @@ class WebGLRenderer {
 	 */
 	public function handleContextRestored (event:Dynamic):Void {
 		
-		this.gl = untyped __js__('this.view.getContext("experimental-webgl",  {  	
+		WebGLRenderer.gl = untyped __js__('this.view.getContext("experimental-webgl",  {  	
 			alpha: true
 		})');
 		
 		//this.initShaders();	
 		
-		for(key in Pixi.TextureCache.keys ()) 
+		for(key in BitmapData.TextureCache.keys ()) 
 		{
-				var texture = Pixi.TextureCache.get (key).baseTexture;
+				var texture = BitmapData.TextureCache.get (key).baseTexture;
 				texture._glTexture = null;
 				WebGLRenderer.updateTexture(texture);
 		};
 		
 		for (i in 0...this.batchs.length) 
 		{
-			this.batchs[i].restoreLostContext(this.gl);
+			this.batchs[i].restoreLostContext(WebGLRenderer.gl);
 			this.batchs[i].dirty = true;
 		};
 		
-		WebGLBatch._restoreBatchs(this.gl);
+		WebGLBatch._restoreBatchs(WebGLRenderer.gl);
 		
 		this.contextLost = false;
 	}
@@ -237,10 +237,10 @@ class WebGLRenderer {
 		WebGLRenderer.updateTextures();
 			
 		// update the scene graph	
-		Pixi.visibleCount++;
+		DisplayObject.visibleCount++;
 		stage.updateTransform();
 		
-		var gl = this.gl;
+		var gl = WebGLRenderer.gl;
 		
 		// -- Does this need to be set every frame? -- //
 		gl.colorMask(true, true, true, this.transparent); 
@@ -269,14 +269,14 @@ class WebGLRenderer {
 		}
 		
 		// after rendering lets confirm all frames that have been uodated..
-		if(Texture.frameUpdates.length > 0)
+		if(BitmapData.frameUpdates.length > 0)
 		{
-			for (i in 0...Texture.frameUpdates.length) 
+			for (i in 0...BitmapData.frameUpdates.length) 
 			{
-			  	Texture.frameUpdates[i].updateFrame = false;
+			  	BitmapData.frameUpdates[i].updateFrame = false;
 			};
 			
-			Texture.frameUpdates = [];
+			BitmapData.frameUpdates = [];
 		}
 		
 	}
@@ -297,7 +297,7 @@ class WebGLRenderer {
 		this.view.width = width;
 		this.view.height = height;
 		
-		this.gl.viewport(0, 0, this.width, this.height);	
+		WebGLRenderer.gl.viewport(0, 0, this.width, this.height);	
 		
 		//var projectionMatrix = this.projectionMatrix;
 		
@@ -339,7 +339,7 @@ class WebGLRenderer {
 	public static function updateTexture (texture:BaseTexture):Void {
 		
 		//TODO break this out into a texture manager...
-		var gl = Pixi.gl;
+		//WebGLRenderer.gl = Pixi.gl;
 		
 		if(texture._glTexture == null)
 		{
@@ -384,10 +384,10 @@ class WebGLRenderer {
 	public static function updateTextures ():Void {
 		
 		//TODO break this out into a texture manager...
-		for (i in 0...Pixi.texturesToUpdate.length) WebGLRenderer.updateTexture(Pixi.texturesToUpdate[i]);
-		for (i in 0...Pixi.texturesToDestroy.length) WebGLRenderer.destroyTexture(Pixi.texturesToDestroy[i]);
-		Pixi.texturesToUpdate = [];
-		Pixi.texturesToDestroy = [];
+		for (i in 0...BaseTexture.texturesToUpdate.length) WebGLRenderer.updateTexture(BaseTexture.texturesToUpdate[i]);
+		for (i in 0...BaseTexture.texturesToDestroy.length) WebGLRenderer.destroyTexture(BaseTexture.texturesToDestroy[i]);
+		BaseTexture.texturesToUpdate = [];
+		BaseTexture.texturesToDestroy = [];
 		
 	}
 	

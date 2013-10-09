@@ -1,15 +1,14 @@
 package pixi.renderers.webgl;
 
 
+import flash.display.Graphics;
+import flash.geom.Matrix;
+import flash.geom.Point;
 import js.html.webgl.GL;
 import js.html.Float32Array;
 import js.html.Uint16Array;
-import pixi.core.Matrix;
-import pixi.core.Point;
-import pixi.primitives.Graphics;
 import pixi.utils.PolyK;
 import pixi.utils.Utils;
-import pixi.Pixi;
 
 
 /**
@@ -423,7 +422,7 @@ class WebGLGraphics {
 	 */
 	public static function renderGraphics (graphics:Graphics, projection:Point):Void {
 		
-		var gl = Pixi.gl;
+		var gl = WebGLRenderer.gl;
 		
 		if(!graphics._webGL)graphics._webGL = {points:[], indices:[], lastIndex:0, 
 											   buffer:gl.createBuffer(),
@@ -522,7 +521,7 @@ class WebGLGraphics {
 		
 		graphics._webGL.lastIndex = graphics.graphicsData.length;
 		
-		var gl = Pixi.gl;
+		var gl = WebGLRenderer.gl;
 		
 		graphics._webGL.glPoints = new Float32Array(graphics._webGL.points);
 		

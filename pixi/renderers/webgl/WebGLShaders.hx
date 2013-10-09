@@ -5,7 +5,6 @@ import js.html.webgl.GL;
 import js.html.webgl.Program;
 import js.html.webgl.Shader;
 import js.Lib;
-import pixi.Pixi;
 
 
 /**
@@ -113,7 +112,7 @@ class WebGLShaders {
 	
 	public static function activateDefaultShader ():Void {
 		
-		var gl = Pixi.gl;
+		var gl = WebGLRenderer.gl;
 		var shaderProgram = WebGLShaders.shaderProgram;
 		
 		gl.useProgram(shaderProgram);
@@ -127,7 +126,7 @@ class WebGLShaders {
 	
 	public static function activatePrimitiveShader ():Void {
 		
-		var gl = Pixi.gl;
+		var gl = WebGLRenderer.gl;
 		
 		gl.disableVertexAttribArray(untyped (shaderProgram).textureCoordAttribute);
 		gl.disableVertexAttribArray(untyped (shaderProgram).colorAttribute);
@@ -149,7 +148,7 @@ class WebGLShaders {
 	
 	public static function compileProgram (vertexSrc:Array<String>, fragmentSrc:Array<String>):Program {
 		
-		var gl = Pixi.gl;
+		var gl = WebGLRenderer.gl;
 		var fragmentShader = CompileFragmentShader(gl, fragmentSrc);
 		var vertexShader = CompileVertexShader(gl, vertexSrc);
 		
@@ -177,7 +176,7 @@ class WebGLShaders {
 	
 	public static function initDefaultShader ():Void {
 		
-		var gl = Pixi.gl;
+		var gl = WebGLRenderer.gl;
 		var shaderProgram = compileProgram(shaderVertexSrc, shaderFragmentSrc);
 		
 		gl.useProgram(shaderProgram);
@@ -197,7 +196,7 @@ class WebGLShaders {
 	
 	public static function initDefaultStripShader ():Void {
 		
-		var gl = Pixi.gl;
+		var gl = WebGLRenderer.gl;
 		var shaderProgram = compileProgram(stripShaderVertexSrc, stripShaderFragmentSrc);
 		
 		gl.useProgram(shaderProgram);
@@ -221,7 +220,7 @@ class WebGLShaders {
 	
 	public static function initPrimitiveShader ():Void {
 		
-		var gl = Pixi.gl;
+		var gl = WebGLRenderer.gl;
 		
 		var shaderProgram = compileProgram(primitiveShaderVertexSrc, primitiveShaderFragmentSrc);
 		

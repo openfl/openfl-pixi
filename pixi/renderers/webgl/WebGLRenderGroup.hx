@@ -1,21 +1,21 @@
 package pixi.renderers.webgl;
 
 
+import flash.display.Bitmap;
+import flash.display.DisplayObject;
+import flash.display.DisplayObjectContainer;
+import flash.display.Graphics;
+import flash.geom.Matrix;
+import flash.geom.Point;
 import js.html.webgl.GL;
 import js.html.webgl.Shader;
 import js.html.Float32Array;
 import js.html.Uint16Array;
-import pixi.core.Matrix;
-import pixi.core.Point;
-import pixi.display.DisplayObject;
-import pixi.display.DisplayObjectContainer;
-import pixi.display.Sprite;
 import pixi.extras.CustomRenderable;
 import pixi.extras.Strip;
 import pixi.extras.TilingSprite;
 import pixi.filters.FilterBlock;
-import pixi.primitives.Graphics;
-import pixi.Pixi;
+
 
 
 /**
@@ -252,16 +252,16 @@ class WebGLRenderGroup {
 		
 		//return ( (x > 0) && ((x & (x - 1)) == 0) );
 		
-		if(sprite.texture.baseTexture._glTexture != null)
+		if(sprite.bitmapData.baseTexture._glTexture != null)
 		{
-			gl.bindTexture(GL.TEXTURE_2D, sprite.texture.baseTexture._glTexture);
+			gl.bindTexture(GL.TEXTURE_2D, sprite.bitmapData.baseTexture._glTexture);
 			gl.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_WRAP_S, GL.REPEAT);
 			gl.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_WRAP_T, GL.REPEAT);
-			sprite.texture.baseTexture._powerOf2 = true;
+			sprite.bitmapData.baseTexture._powerOf2 = true;
 		}
 		else
 		{
-			sprite.texture.baseTexture._powerOf2 = true;
+			sprite.bitmapData.baseTexture._powerOf2 = true;
 		}
 		
 	}
@@ -277,9 +277,9 @@ class WebGLRenderGroup {
 	 */
 	private function insertAfter (item:Dynamic, displayObject:DisplayObject):Void {
 		
-		if(Std.is (displayObject, Sprite))
+		if(Std.is (displayObject, Bitmap))
 		{
-			var previousBatch:Dynamic = cast (displayObject, Sprite).batch;
+			var previousBatch:Dynamic = cast (displayObject, Bitmap).batch;
 			
 			if(previousBatch != null)
 			{
@@ -353,17 +353,17 @@ class WebGLRenderGroup {
 		 * so now we have the next renderable and the previous renderable
 		 * 
 		 */
-		if(Std.is (displayObject, Sprite))
+		if(Std.is (displayObject, Bitmap))
 		{
 			var previousBatch:Dynamic;
 			var nextBatch:Dynamic;
 			
-			if(Std.is (previousSprite, Sprite))
+			if(Std.is (previousSprite, Bitmap))
 			{
 				previousBatch = previousSprite.batch;
 				if(previousBatch != null)
 				{
-					if(previousBatch.texture == cast (displayObject, Sprite).texture.baseTexture && previousBatch.blendMode == cast (displayObject, Sprite).blendMode)
+					if(previousBatch.texture == cast (displayObject, Bitmap).bitmapData.baseTexture && previousBatch.blendMode == cast (displayObject, Bitmap).blendMode)
 					{
 						previousBatch.insertAfter(displayObject, previousSprite);
 						return;
@@ -378,14 +378,14 @@ class WebGLRenderGroup {
 			
 			if(nextSprite != null)
 			{
-				if(Std.is (nextSprite, Sprite))
+				if(Std.is (nextSprite, Bitmap))
 				{
 					nextBatch = nextSprite.batch;
 					
 					//batch may not exist if item was added to the display list but not to the webGL
 					if(nextBatch != null)
 					{
-						if(nextBatch.texture == cast (displayObject, Sprite).texture.baseTexture && nextBatch.blendMode == cast (displayObject, Sprite).blendMode)
+						if(nextBatch.texture == cast (displayObject, Bitmap).bitmapData.baseTexture && nextBatch.blendMode == cast (displayObject, Bitmap).blendMode)
 						{
 							nextBatch.insertBefore(displayObject, nextSprite);
 							return;
@@ -544,10 +544,10 @@ class WebGLRenderGroup {
 		 */
 		var batchToRemove:Dynamic = null;
 		
-		if(Std.is (displayObject, Sprite))
+		if(Std.is (displayObject, Bitmap))
 		{
 			// should always have a batch!
-			var batch:Dynamic = cast (displayObject, Sprite).batch;
+			var batch:Dynamic = cast (displayObject, Bitmap).batch;
 			if(batch == null)return; // this means the display list has been altered befre rendering
 			
 			batch.remove(displayObject);
@@ -632,7 +632,7 @@ class WebGLRenderGroup {
 			}
 			
 			// non sprite batch..
-			var worldVisible = (renderable.vcount == Pixi.visibleCount);
+			var worldVisible = (renderable.vcount == DisplayObject.visibleCount);
 			
 			if(Std.is (renderable, TilingSprite))
 			{
@@ -685,7 +685,7 @@ class WebGLRenderGroup {
 	 */
 	private function renderSpecial (renderable:DisplayObject, projection:Point):Void {
 		
-		var worldVisible = (renderable.vcount == Pixi.visibleCount);
+		var worldVisible = (renderable.vcount == DisplayObject.visibleCount);
 		
 		if(Std.is (renderable, TilingSprite))
 		{
@@ -709,7 +709,7 @@ class WebGLRenderGroup {
 			 * for now only masks are supported..
 			 */
 			 
-			var gl = Pixi.gl;
+			var gl = WebGLRenderer.gl;
 			
 			if(cast (renderable, FilterBlock).open)
 			{
@@ -774,7 +774,7 @@ class WebGLRenderGroup {
 		}
 		var startBatch:Dynamic = nextRenderable.batch;
 		
-		if(Std.is (nextRenderable, Sprite))
+		if(Std.is (nextRenderable, Bitmap))
 		{
 			startBatch = nextRenderable.batch;
 			
@@ -812,9 +812,9 @@ class WebGLRenderGroup {
 			if(lastItem.renderable)lastRenderable = lastItem;
 		}
 		
-		if(Std.is (lastRenderable, Sprite))
+		if(Std.is (lastRenderable, Bitmap))
 		{
-			endBatch = cast(lastRenderable, Sprite).batch;
+			endBatch = cast(lastRenderable, Bitmap).batch;
 			
 			var head = endBatch.head;
 			
@@ -950,7 +950,7 @@ class WebGLRenderGroup {
 			gl.vertexAttribPointer(untyped (shaderProgram).textureCoordAttribute, 2, GL.FLOAT, false, 0, 0);
 			
 			gl.activeTexture(GL.TEXTURE0);
-			gl.bindTexture(GL.TEXTURE_2D, strip.texture.baseTexture._glTexture);
+			gl.bindTexture(GL.TEXTURE_2D, strip.bitmapData.baseTexture._glTexture);
 			
 			gl.bindBuffer(GL.ARRAY_BUFFER, strip._colorBuffer);
 			gl.vertexAttribPointer(untyped (shaderProgram).colorAttribute, 1, GL.FLOAT, false, 0, 0);
@@ -972,7 +972,7 @@ class WebGLRenderGroup {
 			gl.vertexAttribPointer(untyped (shaderProgram).textureCoordAttribute, 2, GL.FLOAT, false, 0, 0);
 			
 			gl.activeTexture(GL.TEXTURE0);
-			gl.bindTexture(GL.TEXTURE_2D, strip.texture.baseTexture._glTexture);
+			gl.bindTexture(GL.TEXTURE_2D, strip.bitmapData.baseTexture._glTexture);
 			
 			gl.bindBuffer(GL.ARRAY_BUFFER, strip._colorBuffer);
 			gl.bufferData(GL.ARRAY_BUFFER, strip.colors, GL.STATIC_DRAW);
@@ -1008,11 +1008,11 @@ class WebGLRenderGroup {
 		var tilePosition = sprite.tilePosition;
 		var tileScale = sprite.tileScale;
 		
-		var offsetX =  tilePosition.x/sprite.texture.baseTexture.width;
-		var offsetY =  tilePosition.y/sprite.texture.baseTexture.height;
+		var offsetX =  tilePosition.x/sprite.bitmapData.baseTexture.width;
+		var offsetY =  tilePosition.y/sprite.bitmapData.baseTexture.height;
 		
-		var scaleX =  (sprite.width / sprite.texture.baseTexture.width)  / tileScale.x;
-		var scaleY =  (sprite.height / sprite.texture.baseTexture.height) / tileScale.y;
+		var scaleX =  (sprite.width / sprite.bitmapData.baseTexture.width)  / tileScale.x;
+		var scaleY =  (sprite.height / sprite.bitmapData.baseTexture.height) / tileScale.y;
 		
 		sprite.uvs[0] = 0 - offsetX;
 		sprite.uvs[1] = 0 - offsetY;

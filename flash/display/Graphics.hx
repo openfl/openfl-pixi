@@ -1,7 +1,7 @@
-package pixi.primitives;
+package flash.display;
 
 
-import pixi.display.DisplayObjectContainer;
+import flash.display.DisplayObjectContainer;
 
 
 /**
@@ -122,6 +122,13 @@ class Graphics extends DisplayObjectContainer {
 		this.dirty = true;
 		this.clearDirty = true;
 		this.graphicsData = [];
+		
+	}
+	
+	
+	public function curveTo (cx:Float, cy:Float, x:Float, y:Float):Void {
+		
+		// Ignored for now
 		
 	}
 	
